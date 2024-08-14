@@ -10,8 +10,12 @@ pipeline {
             }
         }
         stage("Simple SSH") {
-            steps {   
-                sh "ssh -i /var/lib/jenkins/.ssh/ansible_key -o StrictHostKeyChecking=no ec2-user@13.126.180.29 uname -a" 
+            steps {
+                script {
+                    sshagent(credentials: ['ec2-ssh']) {
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@13.126.180.29 uname -a"
+                    }
+                }
             }
         }
     }
