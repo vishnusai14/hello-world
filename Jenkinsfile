@@ -27,6 +27,12 @@ pipeline {
         //     }
         // }
 
+        stage("Copying to docker node") {
+            sshagent(credentials: ['ec2-ssh']) {
+                sh "scp -o StrictKeyChecking=no /var/lib/jenkins/workspace/devops-hello-world-project/* ubuntu@15.207.100.18:/home/ubuntu/project"
+            }
+        }
+
         stage("Building Docker Image") {
             agent{
                 label 'docker-node'
