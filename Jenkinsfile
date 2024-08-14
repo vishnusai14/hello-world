@@ -30,8 +30,9 @@ pipeline {
         stage("Copying to docker node") {
             steps {
                 script {
+                    //Copy from the local workspace  to the docker-node workspace
                     sshagent(credentials: ['ec2-ssh']) {
-                        sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/devops-hello-world-project/webapp/target/webapp.war ubuntu@15.207.100.18:/home/ubuntu/"
+                        sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/docker-node/webapp/target/webapp.war ubuntu@15.207.100.18:/home/ubuntu/workspace/docker-node/webapp/target/"
                     }
                 }
             }
