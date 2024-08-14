@@ -44,5 +44,11 @@ pipeline {
                 }
             }
         }
+        stage("Remove Docker Image Locally") {
+            steps {
+                sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh "docker rmi ${DOCKER_REPO}:latest"
+            }
+        }
     }
 }
