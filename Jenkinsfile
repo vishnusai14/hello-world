@@ -29,7 +29,7 @@ pipeline {
 
         stage("Building Docker Image") {
             agent{
-                label: 'docker-node'
+                label 'docker-node'
             }
             steps {
                 script {
@@ -39,7 +39,7 @@ pipeline {
         }
         stage("Pushing the Docker Image") {
             agent{
-                label: 'docker-node'
+                label 'docker-node'
             }
             steps {
                 script {
