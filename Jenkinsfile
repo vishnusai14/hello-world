@@ -13,14 +13,7 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['ec2-ssh']) {
-                        sh 
-                            """
-                                ssh -o StrictHostKeyChecking=no ec2-user@13.126.180.29 << 'EOF'
-                                # Your commands here
-                                echo "Hello from Jenkins"
-                                df -h
-                                EOF
-                            """
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.126.180.29 uname -a"
                     }
                 }
             }
