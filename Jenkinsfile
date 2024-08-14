@@ -28,6 +28,9 @@ pipeline {
         // }
 
         stage("Building Docker Image") {
+            agent{
+                label: 'docker-node'
+            }
             steps {
                 script {
                     dockerImage = docker.build("${DOCKER_REPO}:${DOCKER_TAG}")
@@ -35,6 +38,9 @@ pipeline {
             }
         }
         stage("Pushing the Docker Image") {
+            agent{
+                label: 'docker-node'
+            }
             steps {
                 script {
                     docker.withRegistry("", DOCKER_CRED) {
@@ -44,11 +50,11 @@ pipeline {
                 }
             }
         }
-        stage("Remove Docker Image Locally") {
-            steps {
-                sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
-                sh "docker rmi ${DOCKER_REPO}:latest"
-            }
-        }
+        // stage("Remove Docker Image Locally") {
+        //     steps {
+        //         sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
+        //         sh "docker rmi ${DOCKER_REPO}:latest"
+        //     }
+        // }
     }
 }
