@@ -4,9 +4,9 @@ pipeline {
         maven "MAVEN"
     }
     environment {
-        DOCKER_CRED='docker-HUB'
-        DOCKER_TAG=env.BUILD_ID
-        DOCKER_REPO='vishnuprasanna/devops-project'
+        DOCKER_CRED="docker-HUB"
+        DOCKER_TAG="${env.BUILD_ID}"
+        DOCKER_REPO="vishnuprasanna/devops-project"
     }
     stages{
         stage("Maven Clean Install") {
