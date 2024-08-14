@@ -13,8 +13,8 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['ec2-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@13.126.180.29 sudo cp /var/lib/jenkins/workspace/devops-hello-world-project/webapp/target/webapp.war /opt/tomcat/webapps/"
-                        
+                        sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/devops-hello-world-project/webapp/target/webapp.war ubuntu@13.126.180.29:/opt/tomcat/webapps/"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@13.126.180.29 'sudo systemctl restart tomcat' "
                     }
                 }
             }
