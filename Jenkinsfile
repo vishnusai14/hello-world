@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['ec2-ssh']) {
-                        sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/devops-hello-world-project/* ubuntu@15.207.100.18:/home/ubuntu/project"
+                        sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/devops-hello-world-project/webapp/target/webapp.war ubuntu@15.207.100.18:/home/ubuntu/"
                     }
                 }
             }
