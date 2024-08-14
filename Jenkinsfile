@@ -27,22 +27,33 @@ pipeline {
         //     }
         // }
 
-        stage("Copying to docker node") {
-            steps {
-                script {
-                    //Copy from the local workspace  to the docker-node workspace
-                    sshagent(credentials: ['ec2-ssh']) {
-                        sh "scp -r -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/docker-node/webapp/* ubuntu@15.207.100.18:/home/ubuntu/workspace/docker-node/webapp/"
-                    }
-                }
-            }
+        //Use this stage if you are using separate docker node
+        // stage("Copying to docker node") {
+        //     steps {
+        //         script {
+        //             //Copy from the local workspace  to the docker-node workspace
+        //             sshagent(credentials: ['ec2-ssh']) {
+        //                 sh "scp -r -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/docker-node/webapp/* ubuntu@15.207.100.18:/home/ubuntu/workspace/docker-node/webapp/"
+        //             }
+        //         }
+        //     }
 
-        }
+        // }
 
-        stage("Building Docker Image") {
+        stage("Remove the image") {
             agent{
                 label 'docker-node'
             }
+            steps {
+                sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh "docker rmi ${DOCKER_REPO}:latest"
+            }
+        }
+
+        stage("Building Docker Image") {
+            // agent{
+            //     label 'docker-node'
+            // }
             steps {
                 script {
                     dockerImage = docker.build("${DOCKER_REPO}:${DOCKER_TAG}")
@@ -50,9 +61,9 @@ pipeline {
             }
         }
         stage("Pushing the Docker Image") {
-            agent{
-                label 'docker-node'
-            }
+            // agent{
+            //     label 'docker-node'
+            // }
             steps {
                 script {
                     docker.withRegistry("", DOCKER_CRED) {
@@ -62,11 +73,11 @@ pipeline {
                 }
             }
         }
-        // stage("Remove Docker Image Locally") {
-        //     steps {
-        //         sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
-        //         sh "docker rmi ${DOCKER_REPO}:latest"
-        //     }
-        // }
+        stage("Remove Docker Image Locally") {
+            steps {
+                sh "docker rmi ${DOCKER_REPO}:${DOCKER_TAG}"
+                sh "docker rmi ${DOCKER_REPO}:latest"
+            }
+        }
     }
 }
