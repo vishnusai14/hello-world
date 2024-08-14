@@ -4,7 +4,7 @@ pipeline {
         maven "MAVEN"
     }
     environment {
-        DOCKER_CRED="docker-HUB"
+        DOCKER_CRED="docker-hub"
         DOCKER_TAG="${env.BUILD_ID}"
         DOCKER_REPO="vishnuprasanna/devops-project"
     }
