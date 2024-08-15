@@ -113,7 +113,7 @@ pipeline {
                 label 'ansible-server'
             }
             steps {
-                sh 'ansible-playbook /home/vagrant/ansible-files/playbook.yaml'
+                sh 'ansible-playbook /home/vagrant/ansible-files/playbook.yaml --config /home/vagrant/ansible-files/ansible.cfg'
             }
         }
     }
