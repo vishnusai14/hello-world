@@ -108,5 +108,13 @@ pipeline {
                 }
             }
         }
+        stage("Run the container") {
+            agent{
+                label 'ansible-server'
+            }
+            steps {
+                sh 'ansible-playbook /home/vagrant/ansible-files/playbook.yaml'
+            }
+        }
     }
 }
