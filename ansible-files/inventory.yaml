@@ -1,0 +1,8 @@
+all:
+  hosts:
+    docker-server: #This is the localhost. We will Ansible-server (aka docker-server) to run the playbook and also build and push the image
+      ansible_host: 192.168.56.11
+      ansible_user: vagrant 
+    production-server: #This is the remote server where we will deploy the container either in kubernetes or in docker container
+      ansible_host: 192.168.56.12
+      ansible_user: vagrant

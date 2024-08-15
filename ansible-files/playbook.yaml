@@ -1,0 +1,30 @@
+- name: Build Image
+  hosts: docker-server
+  tasks:
+    - name: Build Image
+      command: docker build -t vishnuprasanna/docker-node-ansible .
+      args:
+        chdir: /home/vagrant/ansible-files
+    - name: Push Image
+      command: docker push vishnuprasanna/docker-node-ansible
+    - name: Remove the Image Locally
+      command:  docker rmi vishnuprasanna/docker-node-ansible
+
+- name: Run Image Using Container in Docker Server
+  hosts: production-server
+  tasks:
+    - name: Remove the previous Image
+      shell: |
+        IMAGE_NAME=$(docker images -q vishnuprasanna/docker-node-ansible)
+        if [ -n "$IMAGE_NAME" ]; then
+          sudo docker rmi $IMAGE_NAME
+        fi
+      ignore_errors: yes
+    - name: Delete Deployment if exists
+      command: kubectl delete deployment web-app-deployment 
+      ignore_errors: yes
+    - name: Create Deployment
+      command: kubectl apply -f /home/vagrant/kubernetes/deployment.yaml
+    - name: Create Service
+      command: kubectl apply -f /home/vagrant/kubernetes/service.yaml
+      ignore_errors: yes
