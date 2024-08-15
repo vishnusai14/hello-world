@@ -13,16 +13,6 @@
 - name: Run Image Using Container in Docker Server
   hosts: production-server
   tasks:
-    - name: Remove the previous Image
-      shell: |
-        IMAGE_NAME=$(docker images -q vishnuprasanna/docker-node-ansible)
-        if [ -n "$IMAGE_NAME" ]; then
-          sudo docker rmi $IMAGE_NAME
-        fi
-      ignore_errors: yes
-    - name: Delete Deployment if exists
-      command: kubectl delete deployment web-app-deployment 
-      ignore_errors: yes
     - name: Create Deployment
       command: kubectl apply -f /home/vagrant/kubernetes/deployment.yaml
     - name: Create Service
