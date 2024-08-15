@@ -101,7 +101,7 @@ pipeline {
         stage("Copying the docker file and war file to ansible server") {
             steps {
                 script {
-                    sshagent(credentials: ['ansible-ssh']) {
+                    sshagent(credentials: ['anisble-ssh']) {
                         sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/docker-node/webapp/target/webapp.war vagrant@192.168.56.11:/home/vagrant/ansible-files/"
                         sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/docker-node/Dockerfile vagrant@192.168.56.11:/home/vagrant/ansible-files/"
                     }
